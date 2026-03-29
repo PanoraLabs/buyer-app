@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Transition } from "framer-motion";
 import { StatusBar } from "@/components/StatusBar";
 import { BottomNav } from "@/components/BottomNav";
 import { Toast } from "@/components/Toast";
@@ -17,7 +17,7 @@ const screenVariants = {
   exit: { opacity: 0, y: -12 },
 };
 
-const screenTransition = {
+const screenTransition: Transition = {
   duration: 0.28,
   ease: "easeOut",
 };
