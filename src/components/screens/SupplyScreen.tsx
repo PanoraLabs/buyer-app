@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Search, ChevronRight } from "lucide-react";
+import { Search, ChevronRight, MapPin, Box, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SupplyScreenProps {
@@ -10,74 +10,98 @@ interface SupplyScreenProps {
 }
 
 const filters = [
-  { id: "all", label: "Semua" },
-  { id: "jagung", label: "🌽 Jagung" },
-  { id: "padi", label: "🌾 Padi" },
-  { id: "sayur", label: "🥬 Sayuran" },
-  { id: "umbi", label: "🧅 Umbi" },
-  { id: "kacang", label: "🫘 Kacang" },
+  { id: "all", label: "semua" },
+  { id: "jagung", label: "jagung" },
+  { id: "padi", label: "padi" },
+  { id: "sayur", label: "sayuran" },
+  { id: "umbi", label: "umbi" },
+  { id: "kacang", label: "kacang" },
 ];
 
 const supplyCards = [
   {
-    emoji: "🥬",
-    komoditas: "Sayuran · Segar",
-    name: "Cabai Merah Keriting",
-    petani: "📍 Magelang, Jateng · KUD Magelang Sejahtera",
+    komoditas: "sayuran · segar",
+    name: "cabai merah keriting",
+    petani: "KUD Magelang Sejahtera",
+    lokasi: "Magelang, Jateng",
+    distance: "420 km",
     price: "Rp 36.800",
     unit: "/kg",
     trend: "▼ 3.2%",
-    trendColor: "text-[#c04860]",
+    trendColor: "text-[#1a7a42]",
     stok: "48.6 ton",
-    kualitas: "Grade A",
+    stokStatus: "tersedia",
+    kualitas: "grade A",
     kualitasColor: "text-[#0d7a6e]",
     panen: "10–15 Agu",
+    estimasiKirim: "2–3 hari",
   },
   {
-    emoji: "🌽",
-    komoditas: "Serealia · Kering",
-    name: "Jagung Hibrida NK 7328",
-    petani: "📍 Sleman, DIY · KUD Sleman Sejahtera",
+    komoditas: "serealia · kering",
+    name: "jagung hibrida NK 7328",
+    petani: "KUD Sleman Sejahtera",
+    lokasi: "Sleman, DIY",
+    distance: "380 km",
     price: "Rp 4.200",
     unit: "/kg",
     trend: "▲ 2.1%",
-    trendColor: "text-[#1a7a42]",
+    trendColor: "text-[#c04860]",
     stok: "148.4 ton",
-    kualitas: "13.2%",
+    stokStatus: "tersedia",
+    kualitas: "kadar air 13.2%",
     kualitasColor: "text-[#0d7a6e]",
-    panen: "Tersedia",
+    panen: "tersedia",
+    estimasiKirim: "1–2 hari",
   },
   {
-    emoji: "🌾",
-    komoditas: "Serealia · GKP",
-    name: "Padi GKP IR-64",
-    petani: "📍 Bantul, DIY · KUD Bantul Makmur",
+    komoditas: "serealia · GKP",
+    name: "padi GKP IR-64",
+    petani: "KUD Bantul Makmur",
+    lokasi: "Bantul, DIY",
+    distance: "385 km",
     price: "Rp 5.500",
     unit: "/kg",
     trend: "▲ 0.8%",
-    trendColor: "text-[#1a7a42]",
+    trendColor: "text-[#c04860]",
     stok: "92.6 ton",
-    kualitas: "Grade B+",
+    stokStatus: "terbatas",
+    kualitas: "grade B+",
     kualitasColor: "text-[#c87820]",
-    panen: "Tersedia ✓",
-    panenColor: "text-[#0d7a6e]",
-    showPnft: true,
+    panen: "tersedia",
+    estimasiKirim: "2–3 hari",
+    verified: true,
   },
   {
-    emoji: "🧅",
-    komoditas: "Umbi · Segar",
-    name: "Bawang Merah Bima Brebes",
-    petani: "📍 Brebes, Jateng · Gapoktan Brebes",
+    komoditas: "umbi · segar",
+    name: "bawang merah brebes",
+    petani: "Gapoktan Brebes",
+    lokasi: "Brebes, Jateng",
+    distance: "290 km",
     price: "Rp 22.500",
     unit: "/kg",
     trend: "▲ 3.2%",
-    trendColor: "text-[#1a7a42]",
+    trendColor: "text-[#c04860]",
     stok: "32.1 ton",
-    kualitas: "Grade A",
+    stokStatus: "tersedia",
+    kualitas: "grade A",
     kualitasColor: "text-[#0d7a6e]",
     panen: "2–3 hari",
+    estimasiKirim: "3–4 hari",
   },
 ];
+
+const getStokBadgeColor = (status: string) => {
+  switch (status) {
+    case "tersedia":
+      return "bg-[rgba(13,122,110,0.1)] text-[#0d7a6e]";
+    case "terbatas":
+      return "bg-[rgba(200,120,32,0.1)] text-[#c87820]";
+    case "habis":
+      return "bg-[rgba(192,72,96,0.1)] text-[#c04860]";
+    default:
+      return "bg-[#F3F4F6] text-[#6B7280]";
+  }
+};
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -107,31 +131,31 @@ export function SupplyScreen({ showToast }: SupplyScreenProps) {
     >
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-3.5">
-        <div className="font-mono text-[9px] tracking-[0.22em] uppercase text-[#9a8e80] mb-1">
-          // Pyth Oracle · Real-time
+        <div className="font-mono text-[10px] tracking-[0.15em] text-[#9CA3AF] mb-1">
+          pyth oracle · real-time
         </div>
-        <h1 className="font-serif text-[26px] text-[#1a1610]">
-          Browse <em className="text-[#0d7a6e] italic">Supply</em>
+        <h1 className="font-sans text-[24px] font-bold text-[#111827] lowercase">
+          browse <span className="text-[#0d7a6e]">supply</span>
         </h1>
       </motion.div>
 
       {/* Search Bar */}
       <motion.div variants={itemVariants} className="mb-3.5">
-        <div className="bg-[#eee8dc] border border-[#d4c8b4] rounded-xl px-4 py-3 flex items-center gap-2.5 focus-within:border-[#0d7a6e] transition-colors">
-          <Search size={16} className="text-[#9a8e80] flex-shrink-0" />
+        <div className="bg-white border border-[#E5E7EB] px-4 py-3 flex items-center gap-2.5 focus-within:border-[#111827] transition-colors">
+          <Search size={16} className="text-[#9CA3AF] flex-shrink-0" />
           <input
             type="text"
-            placeholder="Cari komoditas, wilayah, petani..."
+            placeholder="cari komoditas, wilayah, petani..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 bg-transparent border-none outline-none text-[13px] font-medium text-[#1a1610] placeholder:text-[#9a8e80]"
+            className="flex-1 bg-transparent border-none outline-none text-[13px] font-medium text-[#111827] placeholder:text-[#9CA3AF]"
           />
           <motion.button
             whileTap={{ scale: 0.95 }}
-            onClick={() => showToast("Membuka filter lanjutan...")}
-            className="px-3 py-1.5 bg-[#0d7a6e] rounded-md text-[10px] font-bold text-white whitespace-nowrap"
+            onClick={() => showToast("membuka filter lanjutan...")}
+            className="px-3 py-1.5 bg-[#111827] text-[10px] font-bold text-white whitespace-nowrap"
           >
-            Filter
+            filter
           </motion.button>
         </div>
       </motion.div>
@@ -145,10 +169,10 @@ export function SupplyScreen({ showToast }: SupplyScreenProps) {
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveFilter(filter.id)}
               className={cn(
-                "flex-shrink-0 px-3.5 py-1.5 border rounded-full text-[11px] font-semibold whitespace-nowrap transition-all",
+                "flex-shrink-0 px-3.5 py-1.5 border text-[11px] font-medium whitespace-nowrap transition-all lowercase",
                 activeFilter === filter.id
-                  ? "bg-[#0d7a6e] border-[#0d7a6e] text-white"
-                  : "bg-[#eee8dc] border-[#d4c8b4] text-[#6a5e50]"
+                  ? "bg-[#111827] border-[#111827] text-white"
+                  : "bg-white border-[#E5E7EB] text-[#6B7280]"
               )}
             >
               {filter.label}
@@ -163,81 +187,113 @@ export function SupplyScreen({ showToast }: SupplyScreenProps) {
           <motion.div
             key={idx}
             variants={itemVariants}
-            className="bg-[#eee8dc] border border-[#d4c8b4] rounded-[14px] overflow-hidden"
+            className="bg-white border border-[#E5E7EB] overflow-hidden"
           >
             {/* Card Top */}
-            <div className="p-4 flex items-start gap-3.5">
-              <span className="text-4xl leading-none flex-shrink-0">{card.emoji}</span>
-              <div className="flex-1">
-                <div className="font-mono text-[9px] tracking-[0.18em] uppercase text-[#9a8e80] mb-0.5">
-                  {card.komoditas}
-                </div>
-                <h3 className="font-serif text-xl text-[#1a1610] leading-tight mb-1">
-                  {card.name}
-                </h3>
-                <p className="text-[11px] text-[#6a5e50] flex items-center gap-1">
-                  {card.petani}
-                </p>
-                
-                {/* Price Section */}
-                <div className="mt-3 p-2 bg-[#e8e0d0] rounded-lg border border-[#d4c8b4] flex items-center justify-between">
-                  <div>
-                    <div className="font-mono text-[9px] text-[#9a8e80] tracking-[0.12em] uppercase">
-                      Pyth Oracle
-                    </div>
-                    <div className="font-serif text-[22px] text-[#1a1610] leading-none">
-                      {card.price}
-                      <span className="text-xs font-sans text-[#6a5e50] ml-0.5">{card.unit}</span>
+            <div className="p-4">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <div className="font-mono text-[10px] tracking-[0.12em] text-[#9CA3AF] mb-0.5 uppercase">
+                    {card.komoditas}
+                  </div>
+                  <h3 className="font-sans text-lg font-bold text-[#111827] leading-tight mb-1 lowercase">
+                    {card.name}
+                  </h3>
+                  
+                  {/* Location & Distance */}
+                  <div className="flex items-center gap-3 text-[11px] text-[#6B7280] mb-3">
+                    <span className="flex items-center gap-1">
+                      <MapPin size={12} />
+                      {card.lokasi}
+                    </span>
+                    <span className="text-[#9CA3AF]">·</span>
+                    <span>{card.distance}</span>
+                    {card.verified && (
+                      <span className="ml-auto px-1.5 py-0.5 bg-[#F3F4F6] text-[9px] font-mono text-[#0d7a6e]">
+                        terverifikasi
+                      </span>
+                    )}
+                  </div>
+                  
+                  {/* Price Section - Clean */}
+                  <div className="bg-[#F9FAFB] border border-[#E5E7EB] p-3">
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <div className="font-mono text-[9px] text-[#9CA3AF] tracking-[0.12em] uppercase">
+                          harga/kg
+                        </div>
+                        <div className="font-sans text-[24px] font-bold text-[#111827] leading-none">
+                          {card.price}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <span className={cn("text-[11px] font-medium", card.trendColor)}>
+                          {card.trend}
+                        </span>
+                        <div className="font-mono text-[9px] text-[#9CA3AF] mt-0.5">
+                          vs kemarin
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <span className={cn("text-[11px] font-bold", card.trendColor)}>
-                    {card.trend}
-                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Grid Info */}
-            <div className="grid grid-cols-3 gap-2 px-4 py-3 border-t border-[#d4c8b4]">
-              <div>
-                <div className="font-mono text-[9px] text-[#9a8e80] tracking-[0.1em] uppercase mb-0.5">
-                  Stok
+            {/* Decision Data Grid */}
+            <div className="grid grid-cols-4 gap-px bg-[#E5E7EB] border-t border-[#E5E7EB]">
+              <div className="bg-white p-3">
+                <div className="flex items-center gap-1 mb-1">
+                  <Box size={12} className="text-[#9CA3AF]" />
+                  <div className="font-mono text-[9px] text-[#9CA3AF] tracking-[0.1em] uppercase">
+                    stok
+                  </div>
                 </div>
-                <div className="font-serif text-[15px] text-[#1a1610]">{card.stok}</div>
+                <div className="font-sans text-[15px] font-bold text-[#111827]">{card.stok}</div>
+                <div className={cn("text-[9px] mt-0.5", getStokBadgeColor(card.stokStatus))}>
+                  {card.stokStatus}
+                </div>
               </div>
-              <div>
-                <div className="font-mono text-[9px] text-[#9a8e80] tracking-[0.1em] uppercase mb-0.5">
-                  Kualitas
+              <div className="bg-white p-3">
+                <div className="font-mono text-[9px] text-[#9CA3AF] tracking-[0.1em] uppercase mb-1">
+                  kualitas
                 </div>
-                <div className={cn("font-serif text-[15px]", card.kualitasColor)}>
+                <div className={cn("font-sans text-[15px] font-bold", card.kualitasColor)}>
                   {card.kualitas}
                 </div>
               </div>
-              <div>
-                <div className="font-mono text-[9px] text-[#9a8e80] tracking-[0.1em] uppercase mb-0.5">
-                  {card.showPnft ? "pNFT" : "Panen"}
+              <div className="bg-white p-3">
+                <div className="flex items-center gap-1 mb-1">
+                  <Calendar size={12} className="text-[#9CA3AF]" />
+                  <div className="font-mono text-[9px] text-[#9CA3AF] tracking-[0.1em] uppercase">
+                    panen
+                  </div>
                 </div>
-                <div className={cn("font-serif text-[15px] text-[#1a1610]", card.panenColor)}>
-                  {card.panen}
+                <div className="font-sans text-[13px] font-semibold text-[#111827]">{card.panen}</div>
+              </div>
+              <div className="bg-white p-3">
+                <div className="font-mono text-[9px] text-[#9CA3AF] tracking-[0.1em] uppercase mb-1">
+                  kirim
                 </div>
+                <div className="font-sans text-[13px] font-semibold text-[#111827]">{card.estimasiKirim}</div>
               </div>
             </div>
 
             {/* Footer Actions */}
-            <div className="px-4 py-3 border-t border-[#d4c8b4] flex gap-2">
+            <div className="px-4 py-3 border-t border-[#E5E7EB] flex gap-2">
               <motion.button
                 whileTap={{ scale: 0.98 }}
-                onClick={() => showToast(`📋 Membuat order ${card.name.split(" ")[0]}...`)}
-                className="flex-1 py-2.5 bg-[#0d7a6e] text-white rounded-lg text-[13px] font-bold touch-feedback"
+                onClick={() => showToast(`membuat order ${card.name}...`)}
+                className="flex-1 py-2.5 bg-[#111827] text-white text-[13px] font-bold touch-feedback lowercase"
               >
-                Pesan Sekarang
+                beli sekarang
               </motion.button>
               <motion.button
                 whileTap={{ scale: 0.98 }}
-                onClick={() => showToast("Membuka detail supplier...")}
-                className="px-4 py-2.5 bg-transparent border border-[#d4c8b4] rounded-lg text-[13px] font-semibold text-[#6a5e50] touch-feedback"
+                onClick={() => showToast("membuka detail supplier...")}
+                className="px-4 py-2.5 bg-transparent border border-[#E5E7EB] text-[13px] font-semibold text-[#6B7280] touch-feedback lowercase"
               >
-                Detail
+                detail
               </motion.button>
             </div>
           </motion.div>

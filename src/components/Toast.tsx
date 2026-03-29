@@ -18,7 +18,7 @@ export function Toast({ message, isVisible }: ToastProps) {
           transition={{ duration: 0.28, ease: "easeOut" }}
           className="fixed bottom-24 left-1/2 z-[300] pointer-events-none"
         >
-          <div className="bg-[#1a1610] text-[#f5f0e8] text-xs font-semibold px-5 py-2.5 rounded-full whitespace-nowrap tracking-wide">
+          <div className="bg-[#111827] text-white text-xs font-medium px-5 py-2.5 whitespace-nowrap tracking-wide lowercase">
             {message}
           </div>
         </motion.div>

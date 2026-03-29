@@ -2,7 +2,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* PANORA Buyer App - Warm Earth Tone Theme */
+/* PANORA Buyer App - Clean Clinical Theme */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -10,17 +10,17 @@
   --font-mono: var(--font-space-mono);
   --font-serif: var(--font-dm-serif);
   
-  /* Warm color palette from reference */
-  --color-bg: #f5f0e8;
-  --color-s1: #eee8dc;
-  --color-s2: #e8e0d0;
-  --color-s3: #ddd4c0;
-  --color-ink: #1a1610;
-  --color-ink2: #3a3228;
-  --color-ink3: #6a5e50;
-  --color-ink4: #9a8e80;
-  --color-border-custom: #d4c8b4;
-  --color-border-hi: #b8a890;
+  /* PANORA Design System Colors */
+  --color-bg: #F9FAFB;
+  --color-s1: #F3F4F6;
+  --color-s2: #E5E7EB;
+  --color-s3: #D1D5DB;
+  --color-ink: #111827;
+  --color-ink2: #374151;
+  --color-ink3: #6B7280;
+  --color-ink4: #9CA3AF;
+  --color-border-custom: #E5E7EB;
+  --color-border-hi: #D1D5DB;
   --color-teal: #0d7a6e;
   --color-teal-lt: #12a898;
   --color-teal-dim: rgba(13, 122, 110, 0.1);
@@ -33,6 +33,13 @@
   --color-green-dim: rgba(26, 122, 66, 0.1);
   --color-blue: #1a5a9a;
   --color-blue-dim: rgba(26, 90, 154, 0.1);
+  
+  /* PANORA Brand Colors */
+  --color-pure-horizon: #F9FAFB;
+  --color-frosted-glass: #F3F4F6;
+  --color-solar-flare: #FF6B00;
+  --color-deep-obsidian: #111827;
+  --color-electric-teal: #00D1FF;
   
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -58,25 +65,25 @@
 }
 
 :root {
-  --background: #f5f0e8;
-  --foreground: #1a1610;
-  --card: #eee8dc;
-  --card-foreground: #1a1610;
-  --popover: #f5f0e8;
-  --popover-foreground: #1a1610;
-  --primary: #0d7a6e;
-  --primary-foreground: #ffffff;
-  --secondary: #e8e0d0;
-  --secondary-foreground: #1a1610;
-  --muted: #e8e0d0;
-  --muted-foreground: #6a5e50;
-  --accent: #eee8dc;
-  --accent-foreground: #1a1610;
+  --background: #F9FAFB;
+  --foreground: #111827;
+  --card: #FFFFFF;
+  --card-foreground: #111827;
+  --popover: #F9FAFB;
+  --popover-foreground: #111827;
+  --primary: #111827;
+  --primary-foreground: #F9FAFB;
+  --secondary: #F3F4F6;
+  --secondary-foreground: #111827;
+  --muted: #F3F4F6;
+  --muted-foreground: #6B7280;
+  --accent: #FF6B00;
+  --accent-foreground: #FFFFFF;
   --destructive: #c04860;
-  --border: #d4c8b4;
-  --input: #d4c8b4;
-  --ring: #0d7a6e;
-  --radius: 0.875rem;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #111827;
+  --radius: 0.5rem;
 }
 
 @layer base {

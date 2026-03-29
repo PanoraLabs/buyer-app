@@ -45,9 +45,22 @@ export default function RootLayout({
       lang="id"
       className={`${outfit.variable} ${dmSerif.variable} ${spaceMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-[#f5f0e8] text-[#1a1610] overflow-x-hidden">
-        <div className="mx-auto max-w-md min-h-screen bg-gradient-radial">
-          {children}
+      <body className="min-h-full bg-[#F9FAFB] text-[#111827] overflow-x-hidden">
+        <div className="mx-auto max-w-md min-h-screen relative">
+          {/* Graph Paper Grid Background */}
+          <div 
+            className="fixed inset-0 pointer-events-none z-0"
+            style={{
+              backgroundImage: `
+                linear-gradient(to right, rgba(156, 163, 175, 0.08) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(156, 163, 175, 0.08) 1px, transparent 1px)
+              `,
+              backgroundSize: '24px 24px',
+            }}
+          />
+          <div className="relative z-10">
+            {children}
+          </div>
         </div>
       </body>
     </html>
