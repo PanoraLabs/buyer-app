@@ -127,7 +127,7 @@ export function SupplyScreen({ showToast }: SupplyScreenProps) {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="pt-5 px-5"
+      className="pt-4 px-4 sm:px-5 w-full"
     >
       {/* Header */}
       <motion.div variants={itemVariants} className="mb-3.5">

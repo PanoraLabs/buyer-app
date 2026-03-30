@@ -21,9 +21,9 @@ export function StatusBar() {
   }, []);
 
   return (
-    <div className="flex items-end justify-between px-6 py-2 h-11 font-mono text-[11px] text-[#6B7280]">
-      <span>{time}</span>
-      <div className="flex items-center gap-1.5">
+    <div className="flex items-center justify-between px-5 py-2 h-12 font-mono text-[11px] text-[#6B7280] safe-top">
+      <span className="font-medium">{time}</span>
+      <div className="flex items-center gap-2">
         <Signal size={14} className="text-[#6B7280]" />
         <Battery size={16} className="text-[#6B7280]" />
       </div>

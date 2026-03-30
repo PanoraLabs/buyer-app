@@ -50,7 +50,7 @@ export function BerandaScreen({ onNavigate, showToast }: BerandaScreenProps) {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="px-5 pt-4"
+      className="px-4 sm:px-5 pt-3 w-full"
     >
       {/* Header */}
       <motion.div variants={itemVariants} className="border-b border-[#E5E7EB] pb-4">
@@ -87,7 +87,7 @@ export function BerandaScreen({ onNavigate, showToast }: BerandaScreenProps) {
           <p className="text-xs text-[#6B7280] mb-4">
             28 order selesai · +18.4% vs bulan lalu
           </p>
-          <div className="flex gap-2">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide">
             {quickActions.map((action) => {
               const Icon = action.icon;
               return (
@@ -95,9 +95,9 @@ export function BerandaScreen({ onNavigate, showToast }: BerandaScreenProps) {
                   key={action.id}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => onNavigate(action.id)}
-                  className="flex-1 py-2.5 bg-[#F3F4F6] border border-[#E5E7EB] text-center touch-feedback"
+                  className="flex-1 min-w-[72px] py-2.5 bg-[#F3F4F6] border border-[#E5E7EB] text-center touch-feedback"
                 >
-                  <Icon size={15} className="mx-auto mb-0.5 text-[#6B7280]" />
+                  <Icon size={16} className="mx-auto mb-1 text-[#6B7280]" />
                   <span className="text-[10px] text-[#374151] font-medium lowercase">
                     {action.label}
                   </span>
@@ -127,20 +127,20 @@ export function BerandaScreen({ onNavigate, showToast }: BerandaScreenProps) {
         <div className="font-mono text-[10px] tracking-[0.15em] text-[#9CA3AF] mb-2.5 lowercase">
           ringkasan
         </div>
-        <div className="grid grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 gap-2">
           {metrics.map((metric, idx) => (
             <motion.button
               key={idx}
               whileTap={{ scale: 0.98 }}
               onClick={() => onNavigate(metric.label.includes("order") ? "order" : metric.label.includes("rfq") ? "permintaan" : metric.label.includes("invoice") ? "bayar" : "supply")}
-              className="bg-white border border-[#E5E7EB] p-4 text-left touch-feedback cursor-pointer"
+              className="bg-white border border-[#E5E7EB] p-3 sm:p-4 text-left touch-feedback cursor-pointer"
             >
               {metric.icon === "star" ? (
-                <span className="text-xl mb-2 block">⭐</span>
+                <span className="text-xl mb-1.5 block">⭐</span>
               ) : (
-                <metric.icon size={18} className="mb-2 text-[#6B7280]" />
+                <metric.icon size={18} className="mb-1.5 text-[#6B7280]" />
               )}
-              <div className={cn("font-sans text-[26px] font-bold leading-none mb-0.5", metric.color)}>
+              <div className={cn("font-sans text-[24px] sm:text-[26px] font-bold leading-none mb-0.5", metric.color)}>
                 {metric.value}
               </div>
               <div className="text-[11px] text-[#6B7280] lowercase">{metric.label}</div>

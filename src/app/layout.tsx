@@ -46,7 +46,7 @@ export default function RootLayout({
       className={`${outfit.variable} ${dmSerif.variable} ${spaceMono.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-[#F9FAFB] text-[#111827] overflow-x-hidden">
-        <div className="mx-auto max-w-md min-h-screen relative">
+        <div className="mx-auto min-h-screen relative">
           {/* Graph Paper Grid Background */}
           <div 
             className="fixed inset-0 pointer-events-none z-0"
@@ -58,7 +58,7 @@ export default function RootLayout({
               backgroundSize: '24px 24px',
             }}
           />
-          <div className="relative z-10">
+          <div className="relative z-10 w-full">
             {children}
           </div>
         </div>

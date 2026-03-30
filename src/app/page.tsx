@@ -34,7 +34,9 @@ export default function BuyerApp() {
   const renderScreen = () => {
     switch (activeTab) {
       case "beranda":
-        return <BerandaScreen onNavigate={setActiveTab} showToast={showToast} />;
+        return (
+          <BerandaScreen onNavigate={setActiveTab} showToast={showToast} />
+        );
       case "supply":
         return <SupplyScreen showToast={showToast} />;
       case "permintaan":
@@ -44,15 +46,17 @@ export default function BuyerApp() {
       case "bayar":
         return <BayarScreen showToast={showToast} />;
       default:
-        return <BerandaScreen onNavigate={setActiveTab} showToast={showToast} />;
+        return (
+          <BerandaScreen onNavigate={setActiveTab} showToast={showToast} />
+        );
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <StatusBar />
-      
-      <main className="flex-1 overflow-hidden relative">
+    <div className="min-h-screen flex flex-col w-full">
+      {/*<StatusBar />*/}
+
+      <main className="flex-1 overflow-hidden relative w-full">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -61,7 +65,7 @@ export default function BuyerApp() {
             animate="animate"
             exit="exit"
             transition={screenTransition}
-            className="absolute inset-0 overflow-y-auto scrollbar-hide pb-24"
+            className="absolute inset-0 overflow-y-auto scrollbar-hide pb-28"
           >
             {renderScreen()}
           </motion.div>
